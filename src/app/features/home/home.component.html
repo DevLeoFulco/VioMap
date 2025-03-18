@@ -1,1 +1,172 @@
-<p>home works!</p>
+<!-- Hero Section -->
+<section class="relative pt-16 pb-20 md:pt-20 md:pb-28 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-blue-50 to-white z-0"></div>
+    
+    <div class="container mx-auto px-4 md:px-6 relative z-10">
+      <div class="max-w-3xl mx-auto text-center mb-12 md:mb-20">
+        <div class="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-1 rounded-full mb-4">
+          Conheça o VioMap
+        </div>
+        
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
+          Monitore a violência no seu bairro
+        </h1>
+        
+        <p class="text-lg text-gray-600 mb-8">
+          Uma plataforma comunitária para mapear ocorrências e gerar estatísticas que ajudam a entender os padrões de violência na sua região.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <a mat-raised-button color="primary" routerLink="/report" class="text-lg">
+            <mat-icon>warning</mat-icon>
+            <span class="ml-2">Reportar Ocorrência</span>
+          </a>
+          <a mat-stroked-button routerLink="/statistics" class="text-lg">
+            <mat-icon>bar_chart</mat-icon>
+            <span class="ml-2">Ver Estatísticas</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Map Section -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4 md:px-6">
+      <div class="max-w-4xl mx-auto mb-10 text-center">
+        <h2 class="text-3xl font-bold mb-4">Mapa da Violência</h2>
+        <p class="text-gray-600 mb-8">
+          Visualize onde as ocorrências estão concentradas e identifique padrões.
+        </p>
+      </div>
+      
+      <div class="rounded-xl overflow-hidden shadow-lg">
+        <div id="map" class="h-[500px]"></div>
+      </div>
+      
+      <!-- Quick Stats -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+        <mat-card>
+          <mat-card-content class="p-6">
+            <div class="flex items-center gap-4">
+              <mat-icon class="text-primary">warning</mat-icon>
+              <div>
+                <div class="text-sm text-gray-600">Total de Ocorrências</div>
+                <div class="text-2xl font-bold">{{stats.totalIncidents}}</div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+  
+        <mat-card>
+          <mat-card-content class="p-6">
+            <div class="flex items-center gap-4">
+              <mat-icon class="text-primary">place</mat-icon>
+              <div>
+                <div class="text-sm text-gray-600">Rua Mais Perigosa</div>
+                <div class="text-2xl font-bold">{{stats.mostDangerousStreet}}</div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+  
+        <mat-card>
+          <mat-card-content class="p-6">
+            <div class="flex items-center gap-4">
+              <mat-icon class="text-primary">warning</mat-icon>
+              <div>
+                <div class="text-sm text-gray-600">Tipo Mais Comum</div>
+                <div class="text-2xl font-bold">{{stats.mostCommonType}}</div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+  
+        <mat-card>
+          <mat-card-content class="p-6">
+            <div class="flex items-center gap-4">
+              <mat-icon class="text-primary">schedule</mat-icon>
+              <div>
+                <div class="text-sm text-gray-600">Horário Crítico</div>
+                <div class="text-2xl font-bold">{{stats.criticalHour}}</div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Features -->
+  <section class="py-16 md:py-24 bg-slate-50">
+    <div class="container mx-auto px-4 md:px-6">
+      <div class="max-w-4xl mx-auto mb-12 text-center">
+        <h2 class="text-3xl font-bold mb-4">Como Funciona</h2>
+        <p class="text-gray-600">
+          Uma plataforma simples e intuitiva para monitorar a violência no seu bairro.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <mat-card>
+          <mat-card-content class="p-6">
+            <div class="text-4xl font-bold text-primary mb-4">01</div>
+            <h3 class="text-xl font-bold mb-2">Reporte ocorrências</h3>
+            <p class="text-gray-600">
+              Registre detalhes como local, horário, tipo de crime, quantidade de vítimas e outros dados relevantes.
+            </p>
+          </mat-card-content>
+        </mat-card>
+  
+        <mat-card>
+          <mat-card-content class="p-6">
+            <div class="text-4xl font-bold text-primary mb-4">02</div>
+            <h3 class="text-xl font-bold mb-2">Visualize no mapa</h3>
+            <p class="text-gray-600">
+              Veja onde as ocorrências estão concentradas e identifique as áreas de maior risco.
+            </p>
+          </mat-card-content>
+        </mat-card>
+  
+        <mat-card>
+          <mat-card-content class="p-6">
+            <div class="text-4xl font-bold text-primary mb-4">03</div>
+            <h3 class="text-xl font-bold mb-2">Analise estatísticas</h3>
+            <p class="text-gray-600">
+              Entenda padrões, horários de maior risco e tipos de ocorrências mais comuns no seu bairro.
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </section>
+  
+  <!-- CTA -->
+  <section class="py-16 md:py-24 bg-primary text-white">
+    <div class="container mx-auto px-4 md:px-6">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-4">Contribua para a segurança do seu bairro</h2>
+        <p class="text-white/80 mb-8">
+          Cada relato ajuda a construir um mapa mais preciso e contribui para a segurança de toda a comunidade.
+        </p>
+        <a mat-raised-button color="accent" routerLink="/report" class="text-lg">
+          Reportar Nova Ocorrência
+        </a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer class="py-12 bg-slate-100">
+    <div class="container mx-auto px-4 md:px-6">
+      <div class="flex flex-col md:flex-row items-center justify-between">
+        <div class="flex items-center space-x-2 mb-4 md:mb-0">
+          <mat-icon class="text-primary">location_on</mat-icon>
+          <span class="font-medium text-lg">DevLeoFulco</span>
+        </div>
+        <p class="text-sm text-gray-600">
+          © {{currentYear}} DevLeoFulco. Todos os direitos reservados.
+        </p>
+      </div>
+    </div>
+  </footer>
