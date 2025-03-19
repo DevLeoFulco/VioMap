@@ -1,1 +1,48 @@
-<p>dashboard works!</p>
+<div class="space-y-6">
+    <header class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-800 mb-2">Dashboard de Monitoramento</h1>
+      <p class="text-gray-600">Acompanhe os índices de violência no bairro de Curados</p>
+    </header>
+    
+    <mat-tab-group class="shadow-lg">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="mr-2">map</mat-icon>
+          Mapa de Calor
+        </ng-template>
+        <div id="map" class="h-[600px] rounded-lg overflow-hidden"></div>
+      </mat-tab>
+      
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="mr-2">analytics</mat-icon>
+          Estatísticas
+        </ng-template>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
+          <div class="chart-container">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">
+              <mat-icon class="align-middle mr-2">warning</mat-icon>
+              Tipos de Ocorrência
+            </h3>
+            <canvas id="typeChart"></canvas>
+          </div>
+          
+          <div class="chart-container">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">
+              <mat-icon class="align-middle mr-2">schedule</mat-icon>
+              Horários das Ocorrências
+            </h3>
+            <canvas id="timeChart"></canvas>
+          </div>
+          
+          <div class="chart-container">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">
+              <mat-icon class="align-middle mr-2">directions_car</mat-icon>
+              Meios de Transporte
+            </h3>
+            <canvas id="transportChart"></canvas>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>

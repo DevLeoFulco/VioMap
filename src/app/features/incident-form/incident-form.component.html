@@ -1,1 +1,173 @@
-<p>incident-form works!</p>
+<div class="min-h-screen bg-slate-50">
+    <main class="pt-24 pb-16">
+      <div class="container mx-auto px-4 md:px-6">
+        <div class="max-w-2xl mx-auto">
+          <mat-card class="p-6 md:p-8">
+            <div class="mb-6">
+              <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-medium">Reportar Ocorrência</h2>
+                <div class="flex items-center">
+                  <div [class]="'w-2.5 h-2.5 rounded-full mr-1.5 ' + (formStep >= 1 ? 'bg-primary' : 'bg-muted')"></div>
+                  <div [class]="'w-2.5 h-2.5 rounded-full mr-1.5 ' + (formStep >= 2 ? 'bg-primary' : 'bg-muted')"></div>
+                  <div [class]="'w-2.5 h-2.5 rounded-full ' + (formStep >= 3 ? 'bg-primary' : 'bg-muted')"></div>
+                </div>
+              </div>
+              <p class="text-gray-600 text-sm">
+                Ajude a comunidade compartilhando informações sobre ocorrências no bairro.
+              </p>
+            </div>
+  
+            <form [formGroup]="incidentForm" (ngSubmit)="onSubmit()" class="space-y-6">
+              <!-- Step 1: Location and Time -->
+              <div *ngIf="formStep === 1" class="space-y-4 animate-fade-in">
+                <h3 class="text-lg font-medium">Onde e quando ocorreu?</h3>
+                
+                <mat-form-field appearance="fill" class="w-full">
+                  <mat-label>Nome da Rua</mat-label>
+                  <input matInput formControlName="street" required>
+                  <mat-icon matPrefix>location_on</mat-icon>
+                  <mat-hint>Ex: Rua das Laranjeiras</mat-hint>
+                </mat-form-field>
+                
+                <mat-form-field appearance="fill" class="w-full">
+                  <mat-label>Ponto de Referência</mat-label>
+                  <input matInput formControlName="referencePoint" required>
+                  <mat-icon matPrefix>place</mat-icon>
+                  <mat-hint>Ex: Próximo ao supermercado</mat-hint>
+                </mat-form-field>
+                
+                <mat-form-field appearance="fill" class="w-full">
+                  <mat-label>Data e Hora Aproximada</mat-label>
+                  <input matInput 
+                         [matDatepicker]="picker" 
+                         formControlName="dateTime" 
+                         [matDatepickerFilter]="dateFilter"
+                         (dateChange)="onDateSelected($event)"
+                         required>
+                  <mat-icon matPrefix>event</mat-icon>
+                  <mat-datepicker-toggle matSuffix [for]="picker">
+                    <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #picker>
+                    <mat-datepicker-actions>
+                      <button mat-button matDatepickerCancel>Cancelar</button>
+                      <button mat-raised-button color="primary" matDatepickerApply>Confirmar</button>
+                    </mat-datepicker-actions>
+                  </mat-datepicker>
+                  <mat-hint>DD/MM/AAAA HH:mm</mat-hint>
+                </mat-form-field>
+              </div>
+  
+              <!-- Step 2: Incident Details -->
+              <div *ngIf="formStep === 2" class="space-y-4 animate-fade-in">
+                <h3 class="text-lg font-medium">Detalhes da ocorrência</h3>
+                
+                <mat-form-field appearance="fill" class="w-full">
+                  <mat-label>Tipo de Ocorrência</mat-label>
+                  <mat-select formControlName="incidentType" required>
+                    <mat-option *ngFor="let type of incidentTypes" [value]="type">
+                      {{type}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-icon matPrefix>warning</mat-icon>
+                </mat-form-field>
+                
+                <mat-form-field appearance="fill" class="w-full">
+                  <mat-label>Meio de Transporte do Agressor</mat-label>
+                  <mat-select formControlName="transportMethod" required>
+                    <mat-option *ngFor="let method of transportMethods" [value]="method">
+                      {{method}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-icon matPrefix>directions</mat-icon>
+                </mat-form-field>
+                
+                <mat-form-field appearance="fill" class="w-full">
+                  <mat-label>Número de Vítimas</mat-label>
+                  <input matInput type="number" formControlName="victimCount" min="1" required>
+                  <mat-icon matPrefix>group</mat-icon>
+                </mat-form-field>
+                
+                <div class="space-y-2">
+                  <label class="text-sm font-medium">Gênero das Vítimas</label>
+                  <div class="grid grid-cols-2 gap-2">
+                    <div *ngFor="let gender of genders" class="flex items-center space-x-2">
+                      <mat-checkbox
+                        [checked]="isGenderSelected(gender)"
+                        (change)="updateGenderSelection(gender, $event.checked)"
+                      >
+                        {{gender}}
+                      </mat-checkbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <!-- Step 3: Additional Information -->
+              <div *ngIf="formStep === 3" class="space-y-4 animate-fade-in">
+                <h3 class="text-lg font-medium">Informações adicionais</h3>
+                
+                <div class="flex items-center space-x-2 pt-1">
+                  <mat-checkbox formControlName="policeReportFiled">
+                    Foi registrado Boletim de Ocorrência
+                  </mat-checkbox>
+                </div>
+                
+                <mat-form-field *ngIf="incidentForm.get('policeReportFiled')?.value" 
+                              appearance="fill" 
+                              class="w-full animate-fade-in">
+                  <mat-label>Número do Boletim de Ocorrência</mat-label>
+                  <input matInput formControlName="policeReportNumber">
+                  <mat-icon matPrefix>description</mat-icon>
+                  <mat-hint>Ex: 123456/2023</mat-hint>
+                </mat-form-field>
+                
+                <mat-form-field appearance="fill" class="w-full">
+                  <mat-label>Descrição da Ocorrência</mat-label>
+                  <textarea matInput formControlName="description" 
+                            rows="4"></textarea>
+                  <mat-icon matPrefix>notes</mat-icon>
+                  <mat-hint>Descreva detalhes adicionais que possam ajudar a entender a ocorrência</mat-hint>
+                </mat-form-field>
+                
+                <div class="bg-amber-50 border border-amber-200 rounded-md p-3 flex items-start space-x-2">
+                  <mat-icon class="text-amber-500">warning</mat-icon>
+                  <div class="text-sm text-amber-800">
+                    <p>As informações serão utilizadas apenas para análise estatística e visualização no mapa do bairro.</p>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="flex justify-between pt-2">
+                <button *ngIf="formStep > 1" 
+                        mat-stroked-button 
+                        type="button"
+                        (click)="previousStep()">
+                  Voltar
+                </button>
+                <div *ngIf="formStep === 1"></div>
+                
+                <button mat-raised-button 
+                        color="primary" 
+                        type="submit"
+                        [disabled]="isSubmitting"
+                        class="min-w-[120px]">
+                  <ng-container *ngIf="isSubmitting">
+                    <mat-spinner diameter="20" class="mr-2"></mat-spinner>
+                    Enviando...
+                  </ng-container>
+                  <ng-container *ngIf="!isSubmitting">
+                    <span *ngIf="formStep < 3">Continuar</span>
+                    <span *ngIf="formStep === 3" class="flex items-center">
+                      <mat-icon class="mr-2">check</mat-icon>
+                      Enviar Relatório
+                    </span>
+                  </ng-container>
+                </button>
+              </div>
+            </form>
+          </mat-card>
+        </div>
+      </div>
+    </main>
+  </div>
